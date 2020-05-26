@@ -11,8 +11,9 @@
         $row = mysqli_fetch_assoc($result);
         $count = mysqli_num_rows($result);
         if($count == 1) {
-            $_SESSION['user'] = $user;
-            $_SERVER['type'] = $row['type'];
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['user'] = $mail;
+            $_SESSION['type'] = $row['type'];
             mysqli_close($db);
             if ($_SESSION['type'] == 1) header("location: menuClient.php");
             else header("location: menuCleaner.php");
