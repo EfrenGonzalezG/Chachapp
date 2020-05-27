@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-05-2020 a las 01:53:23
+-- Tiempo de generación: 27-05-2020 a las 02:14:10
 -- Versión del servidor: 10.4.6-MariaDB
 -- Versión de PHP: 7.3.9
 
@@ -21,6 +21,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `chachapp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `task`
+--
+
+CREATE TABLE `task` (
+  `id` int(11) NOT NULL,
+  `idClient` int(11) NOT NULL,
+  `name` text COLLATE utf8_spanish_ci NOT NULL,
+  `phone` int(11) NOT NULL,
+  `address` text COLLATE utf8_spanish_ci NOT NULL,
+  `amount` float NOT NULL,
+  `date` date NOT NULL,
+  `time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -51,6 +68,12 @@ INSERT INTO `user` (`id`, `mail`, `password`, `name`, `phone`, `address`, `type`
 --
 
 --
+-- Indices de la tabla `task`
+--
+ALTER TABLE `task`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `user`
 --
 ALTER TABLE `user`
@@ -59,6 +82,12 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `task`
+--
+ALTER TABLE `task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `user`

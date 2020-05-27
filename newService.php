@@ -53,10 +53,6 @@
                 <label for="date">Fecha:</label>
                 <input type="datetime-local" class="form-control" id="date" name="date" required>
             </div>
-            <div class="form-group">
-                <label for=time>Hora:</label>
-                <input type="time" class="form-control" id="time" name="time" required>
-            </div>
             <button type="submit" class="btn btn-primary col-12">Crear Cuenta</button>
         </form>
     </div>
