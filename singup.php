@@ -26,7 +26,6 @@
         if ($error == 0){
             $sql = "INSERT INTO user (id, mail, password, name, phone, address, type)
                     VALUES (NULL, '$mail', '$password', '$name', '$phone', '$address', '$type');";
-            echo $sql;
             if (mysqli_query($db, $sql)) {
                 mysqli_close($db);
                 header("location: login.php");

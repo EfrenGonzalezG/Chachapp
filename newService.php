@@ -6,6 +6,30 @@
         $_SESSION = array();
         header("location: login.php");
     }
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $address = mysqli_real_escape_string($db, $_POST['address']);
+        $amount = mysqli_real_escape_string($db, $_POST['amount']);
+        $idClient = mysqli_real_escape_string($db, $_SESSION['id']);
+        $name = mysqli_real_escape_string($db, $_POST['name']);
+        $phone = mysqli_real_escape_string($db, $_POST['phone']);
+        $time = mysqli_real_escape_string($db, $_POST['time']);
+        $type = mysqli_real_escape_string($db, 0);
+        $sql = "INSERT INTO task (id, address, amount, idClient, name, phone, time, type)
+        VALUES (NULL, '$address', '$amount', '$idClient', '$name', '$phone', '$time', '$type');";
+        if (mysqli_query($db, $sql)) {
+            $sql = "SELECT MAX(id) FROM task WHERE idClient = $idClient";
+            $result = mysqli_query($db, $sql);
+            $row = mysqli_fetch_assoc($result);
+            $id = $row['MAX(id)'];
+            for ($i = 0; $i<count($_FILES["images"]["tmp_name"]); $i++){
+                $image_file = addslashes(file_get_contents($_FILES["images"]["tmp_name"][$i]));
+                $sql = "INSERT INTO image (id, idTask, image) VALUES (NULL, '$id', '$image_file');";
+                mysqli_query($db, $sql);
+            }
+            mysqli_close($db);
+            header("location: menuClient.php");
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +56,7 @@
         ?>
         <br>
         <h2 class="text-center">Registro</h2>
-        <form  action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+        <form  action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Nombre:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -50,8 +74,12 @@
                 <input type="number" class="form-control" id="amount" name="amount" required>
             </div>
             <div class="form-group">
-                <label for="date">Fecha:</label>
-                <input type="datetime-local" class="form-control" id="date" name="date" required>
+                <label for="time">Fecha:</label>
+                <input type="datetime-local" class="form-control" id="time" name="time" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Imagenes:</label>
+                <input type="file" class="form-control" id="images" name="images[]" multiple accept=".jpg, .png" required>
             </div>
             <button type="submit" class="btn btn-primary col-12">Crear Cuenta</button>
         </form>
