@@ -6,16 +6,19 @@
         $_SESSION = array();
         header("location: login.php");
     }
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if($_SERVER["REQUEST_METHOD"] == "POST" 
+            && isset($_POST['name'])
+            ){
         $address = mysqli_real_escape_string($db, $_POST['address']);
         $amount = mysqli_real_escape_string($db, $_POST['amount']);
         $idClient = mysqli_real_escape_string($db, $_SESSION['id']);
         $name = mysqli_real_escape_string($db, $_POST['name']);
         $phone = mysqli_real_escape_string($db, $_POST['phone']);
         $time = mysqli_real_escape_string($db, $_POST['time']);
-        $type = mysqli_real_escape_string($db, 0);
-        $sql = "INSERT INTO task (id, address, amount, idClient, name, phone, time, type)
-        VALUES (NULL, '$address', '$amount', '$idClient', '$name', '$phone', '$time', '$type');";
+        $idCleaner = mysqli_real_escape_string($db, -1);
+        $score = mysqli_real_escape_string($db, -1);
+        $sql = "INSERT INTO task (id, address, amount, idClient, name, phone, time, idCleaner, score)
+        VALUES (NULL, '$address', '$amount', '$idClient', '$name', '$phone', '$time', '$idCleaner', '$score');";
         if (mysqli_query($db, $sql)) {
             $sql = "SELECT MAX(id) FROM task WHERE idClient = $idClient";
             $result = mysqli_query($db, $sql);
@@ -55,7 +58,7 @@
             }
         ?>
         <br>
-        <h2 class="text-center">Registro</h2>
+        <h2 class="text-center">Servicio</h2>
         <form  action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Nombre:</label>
@@ -81,8 +84,14 @@
                 <label for="date">Imagenes:</label>
                 <input type="file" class="form-control" id="images" name="images[]" multiple accept=".jpg, .png" required>
             </div>
-            <button type="submit" class="btn btn-primary col-12">Crear Cuenta</button>
+            <button type="submit" class="btn btn-primary col-12">Solicitar</button>
         </form>
+        <br>
+        <div>
+            <form  action = "menuClient.php" method="POST">
+                <button type="submit" class="btn btn-primary col">Salir</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
